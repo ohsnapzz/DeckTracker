@@ -23,6 +23,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NuGet;
+using Microsoft.Win32;
 
 namespace DeckTracker.Windows
 {
@@ -457,6 +458,35 @@ namespace DeckTracker.Windows
         private void ReportBugs_OnClick(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://github.com/extesy/decktracker/issues"));
+        }
+
+        private void ExportPlayerDeckToFileMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var deck = (((sender as MenuItem)?.CommandParameter as ContextMenu)?.PlacementTarget as ListViewItem)?.DataContext as Deck;
+                if (deck == null) return;
+                var export = new StringBuilder();
+                export.AppendLine($"### {deck.Name} ###");
+                export.Append(ArchetypeManager.GetExportedDeck(deck.GameType, deck.Cards));
+                SaveFileDialog saveDeck = new SaveFileDialog
+                {
+                    Title = "Export Deck",
+                    FileName = string.Join("", deck.Name.Split(Path.GetInvalidFileNameChars())),
+                    InitialDirectory = Logger.GameDataDirectory,
+                    Filter = "Deck tracker deck file (*.dtdeck)|*.dtdeck",
+                    RestoreDirectory = true
+                };
+                if (saveDeck.ShowDialog() == true)
+                {
+                    File.WriteAllText(saveDeck.FileName, export.ToString());
+                    MessageBox.Show($"{deck.Name} exported to\n{saveDeck.FileName}", "Success");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Something went wrong...\n{ex.Message}", "Error");
+            }
         }
     }
 }

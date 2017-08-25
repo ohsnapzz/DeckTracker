@@ -52,6 +52,7 @@
             <ListView.Resources>
                 <ContextMenu x:Key="DecksListViewContextMenu">
                     <MenuItem Header="Copy to clipboard" Click="ExportPlayerDeckMenuItem_OnClick" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+                    <MenuItem Header="Export deck to file" Click="ExportPlayerDeckToFileMenuItem_OnClick" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
                     <MenuItem Header="Delete deck and all associated stats" Click="DeleteDeckMenuItem_OnClick" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
                 </ContextMenu>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
@@ -88,7 +89,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-<!--
+        <!--
         <Grid Grid.Row="1" Grid.Column="2" Grid.IsSharedSizeScope="True" Name="AgainstListView">
             <Grid.DataContext>
                 <domain:AgainstDeck />

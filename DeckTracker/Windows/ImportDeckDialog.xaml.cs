@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using DeckTracker.LowLevel;
+using Microsoft.Win32;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace DeckTracker.Windows
@@ -27,5 +30,20 @@ namespace DeckTracker.Windows
         }
 
         internal Task<string> WaitForButtonPressAsync() => tcs.Task;
+
+        private void ImportFileButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ImportFileButton.IsEnabled = false;
+            OpenFileDialog openFileDialog = new OpenFileDialog()
+            {
+                Title = "Import Deck",
+                InitialDirectory = Logger.GameDataDirectory,
+                Filter = "Deck tracker deck file (*.dtdeck)|*.dtdeck",
+                RestoreDirectory = true
+            };
+            if (openFileDialog.ShowDialog() == true)
+                DeckListTextBox.Text = File.ReadAllText(openFileDialog.FileName);
+            tcs.SetResult(DeckList);
+        }
     }
 }

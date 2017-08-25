@@ -16,8 +16,9 @@
         </Grid.RowDefinitions>
         <TextBox x:Name="DeckListTextBox" Grid.Row="0" TextWrapping="NoWrap" AcceptsReturn="True"
                  Text="{Binding DeckList, RelativeSource={RelativeSource AncestorType={x:Type local:ImportDeckDialog}}}"
-                 controls:TextBoxHelper.Watermark="Enter a deck list or a url to legends-decks.com or eternalwarcry.com" />
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                 controls:TextBoxHelper.Watermark="Enter a deck list or a url to legends-decks.com or eternalwarcry.com" Margin="-72,0,-72,0" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Width="212" Margin="0,0,-72,0">
+            <Button x:Name="ImportFileButton" Margin="10,10,10,10" Content="From file" Click="ImportFileButton_OnClick" />
             <Button x:Name="ImportButton" Margin="10,10,10,10" Content="Import" Click="ImportButton_OnClick" />
             <Button x:Name="CancelButton" Margin="10,10,10,10" Content="Cancel" Click="CancelButton_OnClick" IsCancel="True" />
         </StackPanel>
